@@ -1,4 +1,4 @@
-ARG BUILD_FROM=ghcr.io/hassio-addons/debian-base:9.5.2
+ARG BUILD_FROM=ghcr.io/home-assistant/armv7-base-debian:trixie-2025.11.1
 # hadolint ignore=DL3006
 FROM ${BUILD_FROM}
 
@@ -6,7 +6,7 @@ FROM ${BUILD_FROM}
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Setup base system
-ARG BUILD_ARCH=amd64
+ARG BUILD_ARCH=armv7
 ARG PLEX_VERSION=1.43.5.11079-b3b13e506
 
 # hadolint ignore=DL3008
@@ -16,12 +16,15 @@ RUN \
     && apt-get update \
     \
     && apt-get install -y --no-install-recommends \
-        xmlstarlet>="1.6.1-4" \
-        uuid-runtime=2.41.5-0+deb13u1 \
-        unrar=1:7.1.8-1 \
+        xmlstarlet \
+        uuid-runtime \
+        unrar \
+        curl \
+        ca-certificates \
     \
-    && if [ "${BUILD_ARCH}" = "aarch64" ]; then ARCH="arm64"; fi \
-    && if [ "${BUILD_ARCH}" = "amd64" ]; then ARCH="amd64"; fi \
+    && if [ "${BUILD_ARCH}" = "aarch64" ]; then ARCH="arm64"; \
+       elif [ "${BUILD_ARCH}" = "amd64" ]; then ARCH="amd64"; \
+       else ARCH="armhf"; fi \
     \
     && curl -J -L -o /tmp/plexmediaserver.deb \
         "https://downloads.plex.tv/plex-media-server-new/${PLEX_VERSION}/debian/plexmediaserver_${PLEX_VERSION}_${ARCH}.deb" \
