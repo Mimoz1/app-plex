@@ -1,13 +1,15 @@
 ---
-name: Plex Media Server
-version: dev
+name: Plex Media Server (armv7)
+version: "3.8.4"
 slug: plex
-description: Recorded media, live TV, online news, and podcasts ready to stream.
-url: https://github.com/hassio-addons/app-plex
+description: Recorded media, live TV, online news, and podcasts ready to stream on armv7.
+url: https://github.com/Mimoz1/app-plex
+image: "ghcr.io/mimoz1/app-plex"
 webui: http://[HOST]:[PORT:32400]/web
 startup: services
 init: false
 arch:
+  - armv7
   - aarch64
   - amd64
 map:
